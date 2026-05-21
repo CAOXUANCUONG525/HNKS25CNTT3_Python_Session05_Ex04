@@ -1,59 +1,74 @@
-# PHÂN TÍCH INPUT / OUTPUT
+# (1) Phân tích và thiết kế giải pháp
+# Phân tích Input/Output
+# Input
 
-# Input:
-# patient_id  -> nhập từ bàn phím -> mặc định kiểu str
-# temp        -> nhập từ bàn phím -> mặc định kiểu str
-# heart_rate  -> nhập từ bàn phím -> mặc định kiểu str
+# Người dùng nhập:
+#   Số lượng chi nhánh → int
+#   Số học viên đi học của từng lớp → int
+#   Mỗi chi nhánh có:
+#       2 lớp học
 
-# Output mong muốn:
-# patient_id  -> giữ nguyên kiểu str
-# temp        -> chuyển sang float
-# heart_rate  -> chuyển sang int
+# Output
+# Hệ thống in trạng thái lớp học
 
-# GIẢI PHÁP 1
-# Ép kiểu trực tiếp khi nhập
-# Ưu điểm:
-# - Code ngắn gọn
-# - Ít biến
-# - Tiết kiệm bộ nhớ
+# Đề xuất giải pháp:
+#   Vòng lặp ngoài để duyệt từng chi nhánh
+#   Vòng lặp trong để duyệt 2 lớp học
+#   Vòng lặp while để bắt nhập lại khi dữ liệu âm
 
-# Nhược điểm:
-# - Khó debug khi nhập sai
-# - Khó kiểm tra dữ liệu trước khi ép kiểu
-
-# GIẢI PHÁP 2
-# Lưu dữ liệu dạng chuỗi rồi mới ép kiểu
-# Ưu điểm:
-# - Dễ kiểm tra dữ liệu
-# - Dễ debug
-# - An toàn hơn cho hệ thống bệnh viện
-
-# Nhược điểm:
-# - Dùng nhiều biến hơn
-# - Code dài hơn
-
-
-# Chọn giải pháp 2 vì:
-# - Hệ thống bệnh viện cần độ chính xác cao
-# - Dễ kiểm tra dữ liệu trước xử lý
-# - Hạn chế lỗi nhập sai
-# - Dễ bảo trì và nâng cấp hệ thống
-# TRIỂN KHAI CODE
+# Pseudocode
+# Nhập branch_count
+# Lặp từng chi nhánh
+#     In tên chi nhánh
+#     Lặp 2 lớp học
+#         Lặp vô hạn
+#             Nhập student_count
+#             Nếu student_count < 0
+#                 In lỗi
+#                 Nhập lại
+#             Ngược lại
+#                 Thoát vòng lặp
+#         Nếu student_count == 0
+#             In lớp vắng toàn bộ
+#         Ngược lại nếu student_count >= 20
+#             In lớp học ổn định
+#         Ngược lại
+#             In lớp cần được nhắc nhở
 
 
-# Nhập mã bệnh nhân
-patient_id = input("Nhập mã bệnh nhân: ")
+branch_count = int(input("Nhập số lượng chi nhánh: "))
+for branch in range(1, branch_count + 1):
 
-# Nhập dữ liệu dạng chuỗi
-temp_str = input("Nhập nhiệt độ cơ thể: ")
-heart_rate_str = input("Nhịp tim: ")
-temp = float(temp_str)
-heart_rate = int(heart_rate_str)
+    print(f"\nChi nhánh {branch}:")
 
-print("--- KẾT QUẢ CHUẨN HÓA DỮ LIỆU ---")
-print("Mã bệnh nhân:", patient_id)
-print("Nhiệt độ cơ thể:", temp)
-print("==> Kiểu dữ liệu hệ thống ghi nhận:", type(temp))
-print("Nhịp tim:", heart_rate, "nhịp/phút")
-print("==> Kiểu dữ liệu hệ thống ghi nhận:", type(heart_rate))
-print("Thông báo: Dữ liệu hợp lệ. Màn hình Monitor đã sẵn sàng kết nối!")
+    for classroom in range(1, 3):
+
+        while True:
+
+            student_count = int(
+                input(
+                    f"Nhập số học viên đi học của lớp {classroom}: "
+                )
+            )
+            if student_count < 0:
+                print(
+                    "Số học viên không hợp lệ. Vui lòng nhập lại."
+                )
+
+            else:
+                break
+        if student_count == 0:
+            print(
+                f"Chi nhánh {branch} - Lớp {classroom}: "
+                "Lớp vắng toàn bộ. Bỏ qua kiểm tra trạng thái."
+            )
+        elif student_count >= 20:
+            print(
+                f"Chi nhánh {branch} - Lớp {classroom}: "
+                "Lớp học ổn định"
+            )
+        else:
+            print(
+                f"Chi nhánh {branch} - Lớp {classroom}: "
+                "Lớp cần được nhắc nhở theo dõi"
+            )
